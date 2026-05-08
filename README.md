@@ -17,8 +17,10 @@
  ┃ ┣ 📂 rules                 # Các quy định chi tiết (Code style, naming...)
  ┃ ┗ 📂 skills                # Các kỹ năng nâng cao (Fix bug, Refactor, Doc co-authoring...)
  ┣ 📂 docs                    # Kho lưu trữ tri thức dự án
- ┃ ┣ 📂 00-05                 # Tài liệu theo giai đoạn phát triển
- ┃ ┗ 📂 features              # Tài liệu chi tiết cho từng tính năng (Vertical Slices)
+ ┃ ┣ 📂 00-05                 # Tài liệu theo giai đoạn phát triển (Init -> Deployment)
+ ┃ ┣ 📂 features              # Tài liệu chi tiết cho từng tính năng (Vertical Slices)
+ ┃ ┣ 📂 source                # Tài liệu tham khảo, thư viện bên thứ 3 và nghiên cứu
+ ┃ ┗ 📂 tools                 # Hướng dẫn công cụ nội bộ và script tự động hóa
  ┣ 📜 ANTIGRAVITY.md          # Bản đồ hướng dẫn chính cho AI
  ┣ 📜 PROJECT_REQUIREMENTS.md # Yêu cầu nghiệp vụ (SRS rút gọn)
  ┗ 📜 PROJECT_ARCHITECTURE.md # Thiết kế kỹ thuật và Tech Stack
