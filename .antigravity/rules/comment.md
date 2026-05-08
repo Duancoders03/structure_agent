@@ -1,4 +1,4 @@
-# Quy tắc Phong cách Lập trình
+# Quy tắc Chú thích (Comments)
 
 ## Chú thích (Comments)
 - Luôn viết chú thích bằng **tiếng Việt**.
