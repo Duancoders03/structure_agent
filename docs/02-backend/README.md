@@ -3,14 +3,19 @@
 ## 1. Cấu trúc Thư mục (Project Structure)
 ```text
 src/
-├── controllers/    # Tiếp nhận request & Render EJS
-├── services/       # Chứa logic nghiệp vụ (Service Layer)
-├── models/         # Định nghĩa Schema & Relationships (Sequelize)
-├── views/          # Templates EJS (Partials, Layouts, Pages)
-├── routes/         # Khai báo các Web Routes
+├── modules/        # Các module chức năng (Ví dụ: admin, home, products...)
+│   ├── {module}/
+│   │   ├── controllers/ # Tiếp nhận request & Render EJS của module
+│   │   ├── services/    # Logic nghiệp vụ riêng của module
+│   │   ├── routes/     # Khai báo các Routes của module
+│   │   └── views/      # Templates EJS riêng của module
+├── models/         # Định nghĩa Schema (Sequelize Models) dùng chung
 ├── middlewares/    # Kiểm tra Auth, Validation, Logging
+├── utils/          # Helpers dùng chung
+├── views/          # Layouts và Partials dùng chung
+├── public/         # Tài sản tĩnh (CSS, JS, Images)
 ├── config/         # Cấu hình DB, Passport, Session
-└── public/         # Tài sản tĩnh (CSS, JS, Images)
+└── app.js          # Khởi tạo Express App
 ```
 
 ## 2. Web Routes & Controller Mapping

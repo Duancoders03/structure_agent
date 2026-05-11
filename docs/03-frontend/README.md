@@ -31,11 +31,15 @@ Sử dụng các lớp Tailwind chuẩn để đảm bảo tính đồng nhất:
     - Heading: *Montserrat* hoặc *Outfit*.
     - Body: *Inter* hoặc *Roboto*.
 
-## 3. Cấu trúc Components (Partials)
-- `header.ejs`: Thanh điều hướng và giỏ hàng nhanh.
-- `footer.ejs`: Thông tin liên hệ và link mạng xã hội.
-- `plant-card.ejs`: Thẻ hiển thị sản phẩm cây (bao gồm tên, giá, và badge mức độ chăm sóc).
-- `care-indicators.ejs`: Các icon hiển thị nhu cầu nước/ánh sáng.
+## 3. Cấu trúc Components & Views
+- **Partials dùng chung (`src/views/partials/`):**
+    - `header.ejs`: Thanh điều hướng và giỏ hàng nhanh.
+    - `footer.ejs`: Thông tin liên hệ và link mạng xã hội.
+    - `plant-card.ejs`: Thẻ hiển thị sản phẩm cây.
+    - `care-indicators.ejs`: Các icon hiển thị nhu cầu nước/ánh sáng.
+- **Module Views (`src/modules/{module}/views/`):**
+    - Chứa các file giao diện đặc thù cho từng chức năng (ví dụ: `dashboard.ejs` trong module `admin`).
+- **Layouts (`src/views/layouts/`):** Các khung giao diện chính cho Client và Admin.
 
 ## 4. Giao diện Quản trị (Admin UI)
 - **Layout:** Sidebar cố định bên trái, Header chứa thông báo và thông tin user, Content thay đổi bên phải.
