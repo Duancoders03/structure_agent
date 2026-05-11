@@ -1,43 +1,36 @@
-# Structure Agent 🚀
+# GreenLife - Hệ thống Bán hàng Cây cảnh Trực tuyến 🌿
 
-**Structure Agent** là một bộ khung (boilerplate) chuẩn hóa dành cho các dự án phát triển phần mềm theo hướng **AI-Native**. Bộ khung này được thiết kế để tối ưu hóa sự cộng tác giữa con người và các trợ lý AI (như Antigravity, Claude, v.v.), giúp dự án luôn ngăn nắp, dễ hiểu và có khả năng mở rộng cao.
+**GreenLife** là một nền tảng thương mại điện tử hiện đại, chuyên cung cấp trải nghiệm mua sắm cây xanh trực tuyến cao cấp. Dự án được xây dựng trên bộ khung **Structure Agent** để tối ưu hóa sự phối hợp giữa con người và AI.
 
-## ✨ Đặc điểm Nổi bật
+## 🚀 Tổng quan Dự án
+- **Mục tiêu:** Kết nối người dùng với không gian sống xanh thông qua giao diện thẩm mỹ và hệ thống hỗ trợ chăm sóc cây thông minh.
+- **Tech Stack chính:** Node.js, EJS, TailwindCSS, PostgreSQL (Sequelize ORM).
+- **Trạng thái:** Đã hoàn thiện tài liệu thiết kế & kiến trúc (Giai đoạn Docs).
 
-- **AI-Optimized**: Tích hợp sẵn thư mục cấu hình dành riêng cho các AI Agents.
-- **Cấu trúc Documentation chuẩn**: Phân chia tài liệu theo từng giai đoạn phát triển dự án (từ khởi tạo đến triển khai).
-- **Quy tắc làm việc rõ ràng**: Thiết lập sẵn các quy định về phong cách lập trình và ngôn ngữ để AI luôn tuân thủ.
-- **Sẵn sàng để "Vibe Code"**: Giúp việc giao tiếp với AI trở nên mượt mà nhờ ngữ cảnh (context) đầy đủ.
+## 📂 Hệ thống Tài liệu Đồng nhất
 
-## 📁 Cấu trúc Thư mục Chính
+Dưới đây là bản đồ dẫn đường cho toàn bộ dự án, đảm bảo tính nhất quán giữa yêu cầu, thiết kế và triển khai:
 
-```text
-📦 structure_agent
- ┣ 📂 .antigravity            # "Bộ não" của Agent (Quy tắc, kỹ năng, workflow)
- ┃ ┣ 📂 rules                 # Các quy định chi tiết (Code style, naming...)
- ┃ ┗ 📂 skills                # Các kỹ năng nâng cao (Fix bug, Refactor, Doc co-authoring...)
- ┣ 📂 docs                    # Kho lưu trữ tri thức dự án
- ┃ ┣ 📂 00-05                 # Tài liệu theo giai đoạn phát triển (Init -> Deployment)
- ┃ ┣ 📂 features              # Tài liệu chi tiết cho từng tính năng (Vertical Slices)
- ┃ ┣ 📂 source                # Tài liệu tham khảo, thư viện bên thứ 3 và nghiên cứu
- ┃ ┗ 📂 tools                 # Hướng dẫn công cụ nội bộ và script tự động hóa
- ┣ 📜 ANTIGRAVITY.md          # Bản đồ hướng dẫn chính cho AI
- ┣ 📜 PROJECT_REQUIREMENTS.md # Yêu cầu nghiệp vụ (SRS rút gọn)
- ┗ 📜 PROJECT_ARCHITECTURE.md # Thiết kế kỹ thuật và Tech Stack
-```
+### 1. Yêu cầu & Tính năng
+- **[Yêu cầu Dự án](PROJECT_REQUIREMENTS.md):** Tầm nhìn, mục tiêu thiết kế (Nature-inspired) và các User Stories.
+- **[Tính năng Cốt lõi](docs/features/core-features.md):** Chi tiết về bộ lọc thông minh, trang Smart Care và hệ thống Admin.
 
-## 🛠️ Cách Bắt đầu
+### 2. Kiến trúc & Kỹ thuật
+- **[Mẫu Kiến trúc](PROJECT_ARCHITECTURE_TEMPLATE.md):** Cấu trúc thư mục MVC + Service Layer, luồng xử lý dữ liệu.
+- **[Thiết kế Hệ thống](docs/01-system-design/README.md):** Sơ đồ Database PostgreSQL, các bảng dữ liệu chính.
+- **[Tài liệu Backend](docs/02-backend/README.md):** Chi tiết ORM (Sequelize), Migrations và API Routes.
 
-1. **Khởi tạo**: Sao chép bộ khung này vào dự án mới của bạn.
-2. **Cấu hình AI**: Cập nhật file `ANTIGRAVITY.md` để AI hiểu được "vibe" dự án của bạn.
-3. **Định nghĩa Yêu cầu**: Viết mục tiêu dự án vào `PROJECT_REQUIREMENTS.md`.
-4. **Phát triển**: Sử dụng các skills trong `.antigravity/skills` để phối hợp với AI hiệu quả nhất.
+### 3. Giao diện & Trải nghiệm (UI/UX)
+- **[Tài liệu Frontend](docs/03-frontend/README.md):** Quy chuẩn thiết kế (Design System), bảng màu (Forest Green), quy tắc nút bấm cho Client & Admin.
 
-## ✍️ Quy ước Quan trọng
+### 4. Kiểm thử & Triển khai
+- **[Kế hoạch Kiểm thử](docs/04-testing/README.md):** Chiến lược test luồng mua hàng và phân quyền.
+- **[Hướng dẫn Triển khai](docs/05-deployment/README.md):** Cấu hình Docker và biến môi trường.
 
-Dự án này tuân thủ các quy tắc trong [comment.md](file:///.antigravity/rules/comment.md):
-- **Ngôn ngữ mã nguồn**: Tiếng Anh.
-- **Chú thích (Comments)**: Luôn bằng **Tiếng Việt**, ngắn gọn, súc tích.
+## 🛠️ Quy tắc Đồng nhất (Convention)
+- **Ngôn ngữ:** Code bằng Tiếng Anh, Comment bằng Tiếng Việt.
+- **Thiết kế:** Luôn ưu tiên Tailwind Utility classes, tuân thủ bảng màu Forest Green đã định nghĩa.
+- **Database:** Mọi thay đổi schema phải thông qua Sequelize Migrations.
 
 ---
-*Dự án được xây dựng với sự hỗ trợ của Antigravity AI.*
+*Dự án được phát triển với sự hỗ trợ của Antigravity AI - Luôn duy trì tính nhất quán và cấu trúc chuẩn.*

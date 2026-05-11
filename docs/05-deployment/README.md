@@ -1,10 +1,20 @@
-# Tài liệu Triển khai
+# Tài liệu Triển khai (Deployment): GreenLife
 
-## Cấu hình Server
-- Hệ điều hành, RAM, CPU.
+## 1. Môi trường Triển khai
+- **Local:** Node.js 18+, PostgreSQL 14+.
+- **Staging/Production:** Render, Heroku hoặc AWS.
 
-## Quy trình CI/CD
-- Cách code được đẩy lên môi trường Production.
+## 2. Cấu hình Docker (Tùy chọn)
+- `Dockerfile`: Định nghĩa môi trường chạy Node.js.
+- `docker-compose.yml`: Kết nối ứng dụng Express với container PostgreSQL.
 
-## Biến môi trường (Environment Variables)
-- Danh sách các key cần cấu hình (không ghi value nhạy cảm).
+## 3. Quy trình Triển khai (CI/CD)
+- Sử dụng **GitHub Actions** để tự động chạy kiểm thử khi có code mới được push lên nhánh `main`.
+- Tự động deploy lên hosting sau khi các bài kiểm tra vượt qua.
+
+## 4. Biến môi trường (Environment Variables)
+Cần cấu hình các biến sau trong quá trình triển khai:
+- `PORT`: Cổng chạy ứng dụng.
+- `DATABASE_URL`: Đường dẫn kết nối tới PostgreSQL.
+- `SESSION_SECRET`: Chuỗi bảo mật cho session.
+- `CLOUDINARY_URL`: (Nếu có) Để quản lý hình ảnh.
