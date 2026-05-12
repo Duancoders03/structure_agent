@@ -9,13 +9,15 @@ src/
 │   │   ├── services/    # Logic nghiệp vụ riêng của module
 │   │   ├── routes/     # Khai báo các Routes của module
 │   │   └── views/      # Templates EJS riêng của module
+├── routes/         # Router trung tâm (Centralized routing)
 ├── models/         # Định nghĩa Schema (Sequelize Models) dùng chung
 ├── middlewares/    # Kiểm tra Auth, Validation, Logging
 ├── utils/          # Helpers dùng chung
 ├── views/          # Layouts và Partials dùng chung
 ├── public/         # Tài sản tĩnh (CSS, JS, Images)
 ├── config/         # Cấu hình DB, Passport, Session
-└── app.js          # Khởi tạo Express App
+├── app.js          # Khởi tạo Express App
+└── server.js       # Điểm khởi đầu Server
 ```
 
 ## 2. Web Routes & Controller Mapping

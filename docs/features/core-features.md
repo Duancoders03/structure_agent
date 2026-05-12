@@ -15,13 +15,18 @@ Dưới đây là chi tiết các tính năng quan trọng nhất cho dự án G
 ## 3. Hệ thống Giỏ hàng & Thanh toán mượt mà
 - **Quick Add:** Thêm nhanh vào giỏ hàng từ trang danh mục.
 - **Mini-cart:** Xem nhanh giỏ hàng mà không cần chuyển trang.
+- **Trang Giỏ hàng:** Quản lý số lượng, xóa sản phẩm và áp dụng mã giảm giá.
 - **Checkout:** Quy trình 1 trang (One-page checkout) để giảm tỷ lệ bỏ rơi giỏ hàng.
 
-## 4. Blog & Kiến thức Xanh
+## 4. Thông tin & Liên hệ
+- **Về chúng tôi (About Us):** Giới thiệu tầm nhìn, sứ mệnh mang sắc xanh đến mọi nhà.
+- **Liên hệ (Contact):** Form liên hệ tích hợp bản đồ và thông tin hỗ trợ khách hàng.
+
+## 5. Blog & Kiến thức Xanh
 - **Cẩm nang chăm sóc:** Các bài viết hướng dẫn sâu về từng loại cây.
 - **Cộng đồng:** Nơi người dùng chia sẻ hình ảnh cây của họ (User-generated content).
 
-## 5. Bảng điều khiển Admin (Dashboard)
+## 6. Bảng điều khiển Admin (Dashboard)
 - **Quản lý tồn kho:** Cảnh báo khi sản phẩm sắp hết hàng.
 - **Xử lý đơn hàng:** Quy trình chuyển đổi trạng thái đơn hàng (Đang xử lý -> Đang giao -> Đã giao).
 - **Phân tích:** Xem biểu đồ doanh thu theo ngày/tháng/năm.

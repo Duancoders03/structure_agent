@@ -23,6 +23,7 @@ Dự án được tổ chức theo kiến trúc **Modular (Module-based Architec
 │   │   ├── home/           # Module trang chủ
 │   │   ├── products/       # Module quản lý sản phẩm
 │   │   └── auth/           # Module xác thực người dùng
+│   ├── routes/             # Router trung tâm (Centralized routes)
 │   ├── models/             # Định nghĩa các Model (Sequelize Schema) dùng chung
 │   ├── middlewares/        # Các bộ lọc trung gian (Auth, Validation...)
 │   ├── utils/              # Các hàm tiện ích (Helpers) dùng chung
@@ -40,11 +41,12 @@ Dự án được tổ chức theo kiến trúc **Modular (Module-based Architec
 ## 3. Luồng Xử lý Dữ liệu
 1. **Request:** Người dùng gửi yêu cầu từ trình duyệt.
 2. **Middleware:** Các middleware dùng chung (tại `src/middlewares`) kiểm tra quyền truy cập hoặc log dữ liệu.
-3. **Router:** Yêu cầu được định hướng tới Router của từng module (tại `src/modules/{module}/routes`).
-4. **Controller:** Router chuyển hướng yêu cầu tới Controller tương ứng trong module.
-5. **Service:** Controller gọi Service trong cùng module để xử lý logic nghiệp vụ chi tiết.
-6. **Model:** Service tương tác với Model chung (tại `src/models`) để truy xuất/cập nhật Database.
-7. **Response:** Controller nhận dữ liệu từ Service, đổ vào EJS Template của module (`src/modules/{module}/views`) hoặc template dùng chung (`src/views`) và trả về HTML.
+3. **Central Router:** Yêu cầu đi qua `src/routes/index.js` để định hướng về module tương ứng.
+4. **Module Router:** Định hướng yêu cầu tới Router của từng module (tại `src/modules/{module}/routes`).
+5. **Controller:** Router chuyển hướng yêu cầu tới Controller tương ứng trong module.
+6. **Service:** Controller gọi Service trong cùng module để xử lý logic nghiệp vụ chi tiết.
+7. **Model:** Service tương tác với Model chung (tại `src/models`) để truy xuất/cập nhật Database.
+8. **Response:** Controller nhận dữ liệu từ Service, đổ vào EJS Template của module (`src/modules/{module}/views`) hoặc template dùng chung (`src/views`) và trả về HTML.
 
 ## 4. Tích hợp TailwindCSS
 - **Source:** `styles/tailwind.css` chứa các directive Tailwind.

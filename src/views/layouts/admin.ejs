@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | GreenLife Admin</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; }
+        .sidebar-transition { transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .sidebar-collapsed { width: 80px !important; }
+        .sidebar-collapsed .nav-text { display: none; }
+        .sidebar-collapsed .logo-text { display: none; }
+        .sidebar-collapsed .nav-item { justify-content: center; padding-left: 0; padding-right: 0; }
+        .sidebar-collapsed .sidebar-header { justify-content: center; padding-left: 0; padding-right: 0; }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-700 flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="w-72 bg-nature-dark text-white flex flex-col flex-shrink-0 sidebar-transition relative z-50">
+        <!-- Sidebar Header -->
+        <div class="h-28 flex items-start px-6 border-b border-white/5 sidebar-header pt-8">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-emerald-900/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                </div>
+                <span class="text-xl font-bold tracking-tight logo-text">GreenLife <span class="text-emerald-400">Admin</span></span>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto custom-scrollbar">
+            <a href="/admin" class="nav-item flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-300 group <%= activePage === 'dashboard' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/20' : 'text-slate-400 hover:bg-white/5 hover:text-white' %>">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+                <span class="font-semibold nav-text">Tổng quan</span>
+            </a>
+            
+            <a href="/admin/products" class="nav-item flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-300 group <%= activePage === 'products' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/20' : 'text-slate-400 hover:bg-white/5 hover:text-white' %>">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
+                <span class="font-semibold nav-text">Sản phẩm</span>
+            </a>
+
+            <a href="/admin/orders" class="nav-item flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-300 group <%= activePage === 'orders' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/20' : 'text-slate-400 hover:bg-white/5 hover:text-white' %>">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                <span class="font-semibold nav-text">Đơn hàng</span>
+            </a>
+
+            <a href="/admin/users" class="nav-item flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-300 group <%= activePage === 'users' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/20' : 'text-slate-400 hover:bg-white/5 hover:text-white' %>">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 01-9-3.833M19 8a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="font-semibold nav-text">Người dùng</span>
+            </a>
+        </nav>
+
+        <!-- Sidebar Footer -->
+        <div class="p-4 border-t border-white/5">
+            <a href="/" class="nav-item flex items-center gap-4 px-4 py-3.5 rounded-2xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span class="font-semibold nav-text">Thoát quản trị</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <!-- Top Header -->
+        <header class="h-28 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-start justify-between px-8 flex-shrink-0 pt-8">
+            <div class="flex items-center gap-6">
+                <button id="sidebar-toggle" class="p-2.5 rounded-xl hover:bg-slate-100 text-slate-500 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </button>
+                <h2 class="text-xl font-bold text-slate-800"><%= title %></h2>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <button class="relative p-2 text-slate-400 hover:text-emerald-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                </button>
+                
+                <div class="h-8 w-px bg-slate-200"></div>
+                
+                <div class="flex items-center gap-3 group cursor-pointer">
+                    <div class="text-right hidden sm:block">
+                        <div class="text-sm font-bold text-slate-800">Admin GreenLife</div>
+                        <div class="text-xs text-slate-400">Quản trị viên cấp cao</div>
+                    </div>
+                    <div class="w-11 h-11 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-700 font-bold shadow-sm group-hover:shadow-md transition-all">A</div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Content Body -->
+        <main class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+            <div class="animate-fade-in-up">
+                <%- body %>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        
+        // Load state from localStorage
+        if (localStorage.getItem('admin-sidebar-collapsed') === 'true') {
+            sidebar.classList.add('sidebar-collapsed');
+        }
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar-collapsed');
+            localStorage.setItem('admin-sidebar-collapsed', sidebar.classList.contains('sidebar-collapsed'));
+        });
+    </script>
+</body>
+</html>
+
