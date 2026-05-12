@@ -1,35 +1,45 @@
-const Product = require('../../../models/product.model');
+const { Product, Category } = require('../../../models');
+const { Op } = require('sequelize');
 
 class ProductService {
-    async getAllProducts(search = '', filters = {}) {
-        let products = [
-            { id: 1, name: 'Cây Lưỡi Hổ', price: 150000, category: 'Lọc không khí', light: 'Thấp', water: 'Ít', imageUrl: 'https://images.unsplash.com/photo-1599591037488-dc79493956a2?q=80&w=500&auto=format&fit=crop' },
-            { id: 2, name: 'Cây Monstera', price: 450000, category: 'Nội thất', light: 'Trung bình', water: 'Vừa', imageUrl: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?q=80&w=500&auto=format&fit=crop' },
-            { id: 3, name: 'Xương Rồng Bát Tiên', price: 120000, category: 'Dễ chăm sóc', light: 'Cao', water: 'Rất ít', imageUrl: 'https://images.unsplash.com/photo-1519336367661-eba9c1dfa5e9?q=80&w=500&auto=format&fit=crop' },
-            { id: 4, name: 'Cây Kim Tiền', price: 200000, category: 'Phong thủy', light: 'Trung bình', water: 'Ít', imageUrl: 'https://images.unsplash.com/photo-1620127252536-03bdfcf6d5c3?q=80&w=500&auto=format&fit=crop' },
-        ];
+    async getAllProducts(query = {}) {
+        const { search, category, stockStatus } = query;
+        let where = {};
 
         if (search) {
-            products = products.filter(p => 
-                p.name.toLowerCase().includes(search.toLowerCase()) || 
-                p.category.toLowerCase().includes(search.toLowerCase())
-            );
+            where[Op.or] = [
+                { name: { [Op.iLike]: `%${search}%` } },
+                { description: { [Op.iLike]: `%${search}%` } }
+            ];
         }
 
-        if (filters.light) {
-            products = products.filter(p => p.light === filters.light);
+        if (category && category !== 'Tất cả danh mục') {
+            where['$Category.name$'] = category;
         }
 
-        if (filters.water) {
-            products = products.filter(p => p.water === filters.water);
+        if (stockStatus) {
+            if (stockStatus === 'Còn hàng') where.stock = { [Op.gt]: 10 };
+            if (stockStatus === 'Sắp hết') where.stock = { [Op.between]: [1, 10] };
+            if (stockStatus === 'Hết hàng') where.stock = 0;
         }
 
-        return products;
+        return await Product.findAll({
+            where,
+            include: [{ model: Category }],
+            order: [['createdAt', 'DESC']]
+        });
     }
 
     async getProductById(id) {
-        const products = await this.getAllProducts();
-        return products.find(p => p.id === parseInt(id));
+        return await Product.findByPk(id, {
+            include: [{ model: Category }]
+        });
+    }
+
+    async getStats() {
+        const totalProducts = await Product.count();
+        const lowStock = await Product.count({ where: { stock: { [Op.lt]: 10 } } });
+        return { totalProducts, lowStock };
     }
 }
 

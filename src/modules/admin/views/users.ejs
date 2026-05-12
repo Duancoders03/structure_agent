@@ -1,32 +1,32 @@
-<div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm mb-8">
+<form action="/admin/users" method="GET" class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm mb-8">
     <div class="flex flex-wrap items-center gap-4">
         <div class="flex-1 min-w-[300px] flex items-center bg-slate-50 rounded-2xl px-5 border border-transparent focus-within:bg-white focus-within:border-emerald-500 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all group">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <input type="text" placeholder="Tìm tên người dùng, email..." class="flex-1 bg-transparent border-none focus:ring-0 py-4 pl-3 outline-none text-sm text-slate-700 placeholder:text-slate-400">
+            <input type="text" name="search" value="<%= filters.search || '' %>" placeholder="Tìm tên người dùng, email..." class="flex-1 bg-transparent border-none focus:ring-0 py-4 pl-3 outline-none text-sm text-slate-700 placeholder:text-slate-400">
         </div>
         
-        <select class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
+        <select name="role" onchange="this.form.submit()" class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
             <option>Tất cả vai trò</option>
-            <option>Khách hàng</option>
-            <option>Quản trị viên</option>
-            <option>Nhân viên kho</option>
+            <option value="customer" <%= filters.role === 'customer' ? 'selected' : '' %>>Khách hàng</option>
+            <option value="admin" <%= filters.role === 'admin' ? 'selected' : '' %>>Quản trị viên</option>
+            <option value="staff" <%= filters.role === 'staff' ? 'selected' : '' %>>Nhân viên kho</option>
         </select>
 
-        <select class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
+        <select name="sort" onchange="this.form.submit()" class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
             <option>Sắp xếp theo</option>
-            <option>Ngày gia nhập (Mới nhất)</option>
-            <option>Ngày gia nhập (Cũ nhất)</option>
-            <option>Tên (A-Z)</option>
+            <option value="Ngày gia nhập (Mới nhất)" <%= filters.sort === 'Ngày gia nhập (Mới nhất)' ? 'selected' : '' %>>Ngày gia nhập (Mới nhất)</option>
+            <option value="Ngày gia nhập (Cũ nhất)" <%= filters.sort === 'Ngày gia nhập (Cũ nhất)' ? 'selected' : '' %>>Ngày gia nhập (Cũ nhất)</option>
+            <option value="Tên (A-Z)" <%= filters.sort === 'Tên (A-Z)' ? 'selected' : '' %>>Tên (A-Z)</option>
         </select>
 
-        <button class="btn-primary h-[52px] px-8 flex items-center gap-3">
+        <a href="/admin/users/create" class="btn-primary h-[52px] px-8 flex items-center gap-3">
             <span>+</span>
             <span>Thêm User</span>
-        </button>
+        </a>
     </div>
-</div>
+</form>
 
 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
     <table class="w-full text-left">
@@ -40,23 +40,48 @@
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-50">
-            <tr class="hover:bg-slate-50 transition-colors">
+            <% if (users.length === 0) { %>
+                <tr>
+                    <td colspan="5" class="px-8 py-12 text-center text-slate-400">Không tìm thấy người dùng nào.</td>
+                </tr>
+            <% } %>
+            <% users.forEach(user => { %>
+            <tr class="hover:bg-slate-50 transition-colors group">
                 <td class="px-8 py-6">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-800 font-bold text-lg">A</div>
-                        <span class="font-bold text-slate-800">Quản trị viên</span>
+                        <% if (user.avatar) { %>
+                            <img src="<%= user.avatar %>" class="w-12 h-12 rounded-2xl object-cover">
+                        <% } else { %>
+                            <div class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-800 font-bold text-lg">
+                                <%= user.fullName.charAt(0) %>
+                            </div>
+                        <% } %>
+                        <span class="font-bold text-slate-800"><%= user.fullName %></span>
                     </div>
                 </td>
-                <td class="px-8 py-6 text-slate-500 font-medium">admin@greenlife.vn</td>
+                <td class="px-8 py-6 text-slate-500 font-medium"><%= user.email %></td>
                 <td class="px-8 py-6">
-                    <span class="px-4 py-1.5 rounded-full bg-purple-50 text-purple-600 text-[11px] font-bold uppercase tracking-wider">Admin</span>
+                    <% 
+                        let roleClass = 'bg-slate-100 text-slate-600';
+                        if (user.role === 'admin') roleClass = 'bg-purple-50 text-purple-600';
+                        if (user.role === 'staff') roleClass = 'bg-blue-50 text-blue-600';
+                    %>
+                    <span class="px-4 py-1.5 rounded-full <%= roleClass %> text-[11px] font-bold uppercase tracking-wider">
+                        <%= user.role === 'customer' ? 'Khách hàng' : (user.role === 'admin' ? 'Quản trị viên' : 'Nhân viên') %>
+                    </span>
                 </td>
-                <td class="px-8 py-6 text-slate-500 font-medium">01/01/2026</td>
+                <td class="px-8 py-6 text-slate-500 font-medium">
+                    <%= new Date(user.createdAt).toLocaleDateString('vi-VN') %>
+                </td>
                 <td class="px-8 py-6 text-right">
-                    <button class="text-blue-500 font-bold hover:underline px-3 py-1">Sửa</button>
-                    <button class="text-red-500 font-bold hover:underline px-3 py-1 ml-2">Xóa</button>
+                    <a href="/admin/users/<%= user.id %>/edit" class="p-2.5 text-blue-500 hover:bg-blue-50 rounded-xl transition-all inline-block" title="Sửa">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </a>
                 </td>
             </tr>
+            <% }) %>
         </tbody>
     </table>
 </div>

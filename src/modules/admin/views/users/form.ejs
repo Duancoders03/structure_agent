@@ -1,0 +1,87 @@
+<div class="mb-8 flex items-center justify-between">
+    <div>
+        <h2 class="text-2xl font-bold text-slate-800"><%= isEdit ? 'Chỉnh sửa người dùng' : 'Thêm người dùng mới' %></h2>
+        <p class="text-slate-500 text-sm mt-1">Quản lý thông tin tài khoản và phân quyền.</p>
+    </div>
+    <a href="/admin/users" class="px-6 py-3 rounded-2xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-all text-sm">
+        Quay lại danh sách
+    </a>
+</div>
+
+<form action="<%= isEdit ? '/admin/users/' + user.id + '/edit' : '/admin/users/create' %>" method="POST" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2 space-y-8">
+        <!-- Basic Info -->
+        <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+            <h3 class="text-lg font-bold text-slate-800 mb-6">Thông tin tài khoản</h3>
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Họ và tên *</label>
+                    <input type="text" name="fullName" value="<%= isEdit ? user.fullName : '' %>" required
+                        class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Email *</label>
+                    <input type="email" name="email" value="<%= isEdit ? user.email : '' %>" required
+                        class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Mật khẩu <%= isEdit ? '(Để trống nếu không đổi)' : '*' %></label>
+                    <input type="password" name="password" <%= isEdit ? '' : 'required' %>
+                        class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm">
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+            <h3 class="text-lg font-bold text-slate-800 mb-6">Thông tin liên hệ</h3>
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Số điện thoại</label>
+                    <input type="text" name="phone" value="<%= isEdit ? user.phone : '' %>"
+                        class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Địa chỉ</label>
+                    <textarea name="address" rows="3"
+                        class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm"><%= isEdit ? user.address : '' %></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="space-y-8">
+        <!-- Role -->
+        <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+            <h3 class="text-lg font-bold text-slate-800 mb-6">Phân quyền</h3>
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-2">Vai trò hệ thống</label>
+                <select name="role" required
+                    class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
+                    <option value="customer" <%= (isEdit && user.role === 'customer') ? 'selected' : '' %>>Khách hàng</option>
+                    <option value="staff" <%= (isEdit && user.role === 'staff') ? 'selected' : '' %>>Nhân viên kho</option>
+                    <option value="admin" <%= (isEdit && user.role === 'admin') ? 'selected' : '' %>>Quản trị viên</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Avatar -->
+        <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+            <h3 class="text-lg font-bold text-slate-800 mb-6">Ảnh đại diện</h3>
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">URL Ảnh</label>
+                    <input type="text" name="avatar" value="<%= isEdit ? user.avatar : '' %>"
+                        class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm">
+                </div>
+            </div>
+        </div>
+
+        <!-- Action -->
+        <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+            <button type="submit" class="w-full btn-primary py-5 rounded-2xl text-lg">
+                <%= isEdit ? 'Cập nhật' : 'Tạo tài khoản' %>
+            </button>
+        </div>
+    </div>
+</form>

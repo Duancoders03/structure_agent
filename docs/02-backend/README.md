@@ -23,14 +23,18 @@ src/
 ## 2. Web Routes & Controller Mapping
 Tất cả các route trả về HTML thông qua `res.render()`.
 
-| Phân hệ | Route | Controller | Service liên quan |
+| Phân hệ | Route | Controller | Service/Logic |
 | :--- | :--- | :--- | :--- |
 | **User** | `/` | `HomeController` | `ProductService` |
 | | `/shop` | `ProductController` | `ProductService` |
 | | `/cart` | `CartController` | `Session/CartService` |
-| | `/checkout`| `OrderController` | `OrderService`, `PaymentService` |
-| **Admin**| `/admin` | `AdminController` | `DashboardService` |
-| | `/admin/products` | `AdminProductController` | `ProductService` |
+| | `/checkout`| `OrderController` | `OrderService` |
+| **Admin**| `/admin` | `AdminController.dashboard` | Lấy stats & đơn hàng gần đây |
+| | `/admin/products` | `AdminController.products` | List + Filter (Sequelize Op) |
+| | `/admin/products/create` | `AdminController.storeProduct`| Xử lý Create + CareGuide JSON |
+| | `/admin/products/:id/edit`| `AdminController.updateProduct`| Xử lý Update theo ID |
+| | `/admin/orders` | `AdminController.orders` | Quản lý trạng thái & Shipping |
+| | `/admin/users` | `AdminController.users` | Quản lý Account & Phân quyền |
 
 ## 3. Chi tiết Service Layer (Kịch bản code)
 - **ProductService:**

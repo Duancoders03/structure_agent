@@ -15,8 +15,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
             </svg>
-            <span>+12.5%</span>
-            <span class="text-slate-400 font-medium text-xs">tháng này</span>
+            <span>Hoạt động</span>
         </div>
     </div>
 
@@ -36,8 +35,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
             </svg>
-            <span>+8.2%</span>
-            <span class="text-slate-400 font-medium text-xs">tuần này</span>
+            <span>Theo dõi</span>
         </div>
     </div>
 
@@ -57,8 +55,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
             </svg>
-            <span>+24%</span>
-            <span class="text-slate-400 font-medium text-xs">quý này</span>
+            <span>Đã thanh toán</span>
         </div>
     </div>
 
@@ -75,7 +72,7 @@
             </div>
         </div>
         <div class="flex items-center gap-2 text-orange-600 text-sm font-bold">
-            <span class="text-slate-400 font-medium text-xs">Mục tiêu đạt 85%</span>
+            <span class="text-slate-400 font-medium text-xs">Mục tiêu tăng trưởng</span>
         </div>
     </div>
 </div>
@@ -83,26 +80,28 @@
 <div class="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm">
     <div class="flex justify-between items-center mb-10">
         <h3 class="text-xl font-bold text-slate-800">Hoạt động gần đây</h3>
-        <button class="text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors">Xem tất cả</button>
+        <a href="/admin/orders" class="text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors">Xem tất cả</a>
     </div>
     <div class="space-y-6">
-        <% for(let i=1; i<=5; i++) { %>
+        <% if (recentOrders.length === 0) { %>
+            <div class="text-center py-8 text-slate-400">Chưa có hoạt động nào.</div>
+        <% } %>
+        <% recentOrders.forEach(order => { %>
         <div class="flex items-center justify-between pb-6 border-b border-slate-50 last:border-0 last:pb-0 group">
             <div class="flex items-center gap-5">
                 <div class="w-14 h-14 bg-slate-50 rounded-[1.25rem] flex items-center justify-center text-2xl group-hover:bg-emerald-50 transition-colors duration-500">
-                    🌿
+                    📦
                 </div>
                 <div>
-                    <div class="font-bold text-slate-800 group-hover:text-emerald-700 transition-colors">Đơn hàng #GL-202<%= i %></div>
-                    <div class="text-sm text-slate-400">Khách hàng: Nguyễn Văn A</div>
+                    <div class="font-bold text-slate-800 group-hover:text-emerald-700 transition-colors">Đơn hàng <%= order.orderNumber %></div>
+                    <div class="text-sm text-slate-400">Khách hàng: <%= order.User ? order.User.fullName : 'Ẩn danh' %></div>
                 </div>
             </div>
             <div class="text-right">
-                <div class="font-bold text-slate-900 text-lg">540.000đ</div>
-                <div class="text-xs text-slate-400">2 giờ trước</div>
+                <div class="font-bold text-slate-900 text-lg"><%= order.totalAmount.toLocaleString('vi-VN') %>đ</div>
+                <div class="text-xs text-slate-400"><%= new Date(order.createdAt).toLocaleDateString('vi-VN') %></div>
             </div>
         </div>
-        <% } %>
+        <% }) %>
     </div>
 </div>
-

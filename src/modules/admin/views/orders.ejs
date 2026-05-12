@@ -1,28 +1,28 @@
-<div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm mb-8">
+<form action="/admin/orders" method="GET" class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm mb-8">
     <div class="flex flex-wrap items-center gap-4">
         <div class="flex-1 min-w-[300px] flex items-center bg-slate-50 rounded-2xl px-5 border border-transparent focus-within:bg-white focus-within:border-emerald-500 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all group">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <input type="text" placeholder="Tìm khách hàng, mã đơn hàng..." class="flex-1 bg-transparent border-none focus:ring-0 py-4 pl-3 outline-none text-sm text-slate-700 placeholder:text-slate-400">
+            <input type="text" name="search" value="<%= filters.search || '' %>" placeholder="Tìm khách hàng, mã đơn hàng..." class="flex-1 bg-transparent border-none focus:ring-0 py-4 pl-3 outline-none text-sm text-slate-700 placeholder:text-slate-400">
         </div>
         
-        <select class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
+        <select name="status" onchange="this.form.submit()" class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
             <option>Tất cả trạng thái</option>
-            <option>Chờ xác nhận</option>
-            <option>Đang xử lý</option>
-            <option>Đang giao</option>
-            <option>Đã hoàn thành</option>
-            <option>Đã hủy</option>
+            <option value="pending" <%= filters.status === 'pending' ? 'selected' : '' %>>Chờ xác nhận</option>
+            <option value="processing" <%= filters.status === 'processing' ? 'selected' : '' %>>Đang xử lý</option>
+            <option value="shipping" <%= filters.status === 'shipping' ? 'selected' : '' %>>Đang giao</option>
+            <option value="completed" <%= filters.status === 'completed' ? 'selected' : '' %>>Đã hoàn thành</option>
+            <option value="cancelled" <%= filters.status === 'cancelled' ? 'selected' : '' %>>Đã hủy</option>
         </select>
 
-        <input type="date" class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600">
+        <input type="date" name="date" value="<%= filters.date || '' %>" onchange="this.form.submit()" class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600">
 
-        <button class="bg-emerald-50 text-emerald-700 px-8 py-3.5 rounded-2xl font-bold hover:bg-emerald-100 transition-all">
+        <button type="button" class="bg-emerald-50 text-emerald-700 px-8 py-3.5 rounded-2xl font-bold hover:bg-emerald-100 transition-all">
             Xuất báo cáo
         </button>
     </div>
-</div>
+</form>
 
 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
     <table class="w-full text-left">
@@ -32,26 +32,52 @@
                 <th class="px-8 py-4 font-bold text-slate-500 text-sm uppercase tracking-wider">Khách hàng</th>
                 <th class="px-8 py-4 font-bold text-slate-500 text-sm uppercase tracking-wider">Ngày đặt</th>
                 <th class="px-8 py-4 font-bold text-slate-500 text-sm uppercase tracking-wider">Trạng thái</th>
-                <th class="px-8 py-4 font-bold text-slate-500 text-sm uppercase tracking-wider text-right">Tổng tiền</th>
+                <th class="px-8 py-4 font-bold text-slate-500 text-sm uppercase tracking-wider">Tổng tiền</th>
+                <th class="px-8 py-4 font-bold text-slate-500 text-sm uppercase tracking-wider text-right">Thao tác</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-50">
-            <% for(let i=1; i<=5; i++) { %>
+            <% if (orders.length === 0) { %>
+                <tr>
+                    <td colspan="6" class="px-8 py-12 text-center text-slate-400">Chưa có đơn hàng nào khớp với tìm kiếm.</td>
+                </tr>
+            <% } %>
+            <% orders.forEach(order => { %>
             <tr class="hover:bg-slate-50 transition-colors group">
-                <td class="px-8 py-6 font-bold text-emerald-700">#GL-202<%= i %></td>
+                <td class="px-8 py-6 font-bold text-emerald-700"><%= order.orderNumber %></td>
                 <td class="px-8 py-6">
-                    <div class="font-bold text-slate-800">Nguyễn Văn <%= String.fromCharCode(64 + i) %></div>
-                    <div class="text-xs text-slate-400">0901 234 56<%= i %></div>
+                    <div class="font-bold text-slate-800"><%= order.User ? order.User.fullName : 'Ẩn danh' %></div>
+                    <div class="text-xs text-slate-400"><%= order.User ? order.User.phone : 'N/A' %></div>
                 </td>
-                <td class="px-8 py-6 text-slate-500 font-medium">11/05/2026</td>
+                <td class="px-8 py-6 text-slate-500 font-medium">
+                    <%= new Date(order.createdAt).toLocaleDateString('vi-VN') %>
+                </td>
                 <td class="px-8 py-6">
-                    <span class="px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-[11px] font-bold uppercase tracking-wider">Đang xử lý</span>
+                    <% 
+                        let statusClass = 'bg-gray-100 text-gray-600';
+                        let statusLabel = order.status;
+                        if (order.status === 'pending') { statusClass = 'bg-orange-50 text-orange-600'; statusLabel = 'Chờ xác nhận'; }
+                        if (order.status === 'processing') { statusClass = 'bg-blue-50 text-blue-600'; statusLabel = 'Đang xử lý'; }
+                        if (order.status === 'shipping') { statusClass = 'bg-purple-50 text-purple-600'; statusLabel = 'Đang giao'; }
+                        if (order.status === 'completed') { statusClass = 'bg-emerald-50 text-emerald-600'; statusLabel = 'Hoàn thành'; }
+                        if (order.status === 'cancelled') { statusClass = 'bg-red-50 text-red-600'; statusLabel = 'Đã hủy'; }
+                    %>
+                    <span class="px-4 py-1.5 rounded-full <%= statusClass %> text-[11px] font-bold uppercase tracking-wider">
+                        <%= statusLabel %>
+                    </span>
                 </td>
-                <td class="px-8 py-6 text-right font-bold text-slate-900 text-lg">
-                    <%= (i * 150000).toLocaleString('vi-VN') %>đ
+                <td class="px-8 py-6 text-emerald-900 font-bold text-lg">
+                    <%= order.totalAmount.toLocaleString('vi-VN') %>đ
+                </td>
+                <td class="px-8 py-6 text-right">
+                    <a href="/admin/orders/<%= order.id %>/edit" class="p-2.5 text-blue-500 hover:bg-blue-50 rounded-xl transition-all inline-block" title="Cập nhật">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </a>
                 </td>
             </tr>
-            <% } %>
+            <% }) %>
         </tbody>
     </table>
 </div>

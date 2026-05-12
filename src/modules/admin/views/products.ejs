@@ -1,33 +1,32 @@
-<div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm mb-8">
+<form action="/admin/products" method="GET" class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm mb-8">
     <div class="flex flex-wrap items-center gap-4">
         <div class="flex-1 min-w-[300px] flex items-center bg-slate-50 rounded-2xl px-5 border border-transparent focus-within:bg-white focus-within:border-emerald-500 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all group">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <input type="text" placeholder="Tìm tên sản phẩm, mã SKU..." class="flex-1 bg-transparent border-none focus:ring-0 py-4 pl-3 outline-none text-sm text-slate-700 placeholder:text-slate-400">
+            <input type="text" name="search" value="<%= filters.search || '' %>" placeholder="Tìm tên sản phẩm, mã SKU..." class="flex-1 bg-transparent border-none focus:ring-0 py-4 pl-3 outline-none text-sm text-slate-700 placeholder:text-slate-400">
         </div>
         
-        <select class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
+        <select name="category" onchange="this.form.submit()" class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
             <option>Tất cả danh mục</option>
-            <option>Cây trong nhà</option>
-            <option>Cây văn phòng</option>
-            <option>Cây lọc không khí</option>
-            <option>Dụng cụ chăm sóc</option>
+            <% categories.forEach(cat => { %>
+                <option value="<%= cat.name %>" <%= filters.category === cat.name ? 'selected' : '' %>><%= cat.name %></option>
+            <% }) %>
         </select>
 
-        <select class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
-            <option>Trạng thái tồn kho</option>
-            <option>Còn hàng</option>
-            <option>Sắp hết</option>
-            <option>Hết hàng</option>
+        <select name="stockStatus" onchange="this.form.submit()" class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
+            <option value="">Trạng thái tồn kho</option>
+            <option value="Còn hàng" <%= filters.stockStatus === 'Còn hàng' ? 'selected' : '' %>>Còn hàng</option>
+            <option value="Sắp hết" <%= filters.stockStatus === 'Sắp hết' ? 'selected' : '' %>>Sắp hết</option>
+            <option value="Hết hàng" <%= filters.stockStatus === 'Hết hàng' ? 'selected' : '' %>>Hết hàng</option>
         </select>
 
-        <button class="btn-primary h-[52px] px-8 flex items-center gap-3 ml-auto">
+        <a href="/admin/products/create" class="btn-primary h-[52px] px-8 flex items-center gap-3 ml-auto">
             <span class="text-xl">+</span>
             <span>Thêm sản phẩm</span>
-        </button>
+        </a>
     </div>
-</div>
+</form>
 
 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
     <table class="w-full text-left">
@@ -41,22 +40,50 @@
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-50">
+            <% if (products.length === 0) { %>
+                <tr>
+                    <td colspan="5" class="px-8 py-12 text-center text-slate-400">Không tìm thấy sản phẩm nào.</td>
+                </tr>
+            <% } %>
             <% products.forEach(product => { %>
-            <tr class="hover:bg-gray-50 transition-colors">
+            <tr class="hover:bg-gray-50 transition-colors group">
                 <td class="px-8 py-6">
                     <div class="flex items-center gap-4">
-                        <img src="<%= product.imageUrl %>" class="w-12 h-12 rounded-xl object-cover">
-                        <span class="font-bold text-slate-800"><%= product.name %></span>
+                        <img src="<%= product.imageUrl %>" class="w-14 h-14 rounded-2xl object-cover shadow-sm group-hover:scale-110 transition-transform duration-500">
+                        <div>
+                            <div class="font-bold text-slate-800"><%= product.name %></div>
+                            <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">ID: #PROD-<%= product.id %></div>
+                        </div>
                     </div>
                 </td>
-                <td class="px-8 py-6 text-slate-500 font-medium"><%= product.category %></td>
-                <td class="px-8 py-6 font-bold text-slate-900"><%= product.price.toLocaleString('vi-VN') %>đ</td>
+                <td class="px-8 py-6 text-slate-500 font-medium">
+                    <span class="px-3 py-1 rounded-lg bg-slate-100 text-slate-600 text-xs font-bold"><%= product.Category ? product.Category.name : 'N/A' %></span>
+                </td>
+                <td class="px-8 py-6 font-bold text-slate-900 text-base"><%= product.price.toLocaleString('vi-VN') %>đ</td>
                 <td class="px-8 py-6">
-                    <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">Còn hàng</span>
+                    <% if (product.stock > 10) { %>
+                        <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-[11px] font-bold uppercase tracking-wider">Còn <%= product.stock %> cây</span>
+                    <% } else if (product.stock > 0) { %>
+                        <span class="px-3 py-1 rounded-full bg-orange-50 text-orange-600 text-[11px] font-bold uppercase tracking-wider">Sắp hết (<%= product.stock %>)</span>
+                    <% } else { %>
+                        <span class="px-3 py-1 rounded-full bg-red-50 text-red-600 text-[11px] font-bold uppercase tracking-wider">Hết hàng</span>
+                    <% } %>
                 </td>
                 <td class="px-8 py-6 text-right">
-                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition-all">Sửa</button>
-                    <button class="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-all">Xóa</button>
+                    <div class="flex justify-end gap-2">
+                        <a href="/admin/products/<%= product.id %>/edit" class="p-2.5 text-blue-500 hover:bg-blue-50 rounded-xl transition-all" title="Chỉnh sửa">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                        </a>
+                        <form action="/admin/products/<%= product.id %>/delete" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">
+                            <button type="submit" class="p-2.5 text-red-500 hover:bg-red-50 rounded-xl transition-all" title="Xóa">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v2m3 3h4" />
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
                 </td>
             </tr>
             <% }) %>
