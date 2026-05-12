@@ -41,12 +41,31 @@ Tất cả các route trả về HTML thông qua `res.render()`.
 - **OrderService:**
     - `placeOrder(data)`: Tạo Order, OrderItems và trừ tồn kho (Transaction-safe).
 
-## 4. Quy trình Phát triển Database
-1. **Thiết kế Model:** Tạo file trong `src/models/`.
-2. **Migration:** Luôn tạo file migration để đồng bộ lên Server/Team.
-    - `npx sequelize-cli migration:generate --name add-column-to-product`
-3. **Seeding:** Dùng `src/seeders/` để tạo dữ liệu cây cảnh phong phú cho môi trường Dev.
+## 4. Cơ sở dữ liệu (Database Layer) 🗄️
+
+Hệ thống sử dụng **PostgreSQL** kết hợp với **Sequelize ORM** để quản lý dữ liệu thông qua **Migrations**.
+
+### 4.1. Cấu hình Sequelize CLI
+- Dự án sử dụng `.sequelizerc` để định cấu hình đường dẫn cho models, migrations và seeders.
+- File cấu hình DB chính nằm tại `src/config/config.js`, hỗ trợ đọc biến môi trường từ `.env`.
+
+### 4.2. Quy trình Phát triển Database
+1. **Tạo Migration mới:**
+   - `npx sequelize-cli migration:generate --name {tên_migration}`
+2. **Chạy Migration:**
+   - `npx sequelize-cli db:migrate` (Cập nhật database lên bản mới nhất)
+3. **Hoàn tác Migration:**
+   - `npx sequelize-cli db:migrate:undo` (Hoàn tác 1 bước gần nhất)
+
+### 4.3. Seeding Dữ liệu
+- **Seeder tập trung:** Dự án sử dụng script `src/config/seed.js` để khởi tạo dữ liệu mẫu nhanh chóng.
+- **Lệnh chạy:** `node src/config/seed.js`
+- **Lưu ý:** Script seed sẽ thực hiện `sync({ force: true })` nên chỉ dùng cho môi trường Development.
+
+### 4.4. Bảo mật & Validation
+- **Password Hashing:** Tự động băm mật khẩu bằng `bcryptjs` thông qua các hook trong Model User.
+- **Validation:** Kiểm tra định dạng Email, giá tiền và số lượng tồn kho ngay tại lớp Model.
 
 ## 5. Xử lý Lỗi & Logging
 - **Global Error Handler:** Middleware bắt các lỗi 404, 500 và render trang lỗi thân thiện.
-- **Logger:** Sử dụng `morgan` cho request logging.
+- **Logger:** Sử dụng `morgan` cho request logging trong môi trường dev.
