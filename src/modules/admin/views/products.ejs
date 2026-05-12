@@ -1,15 +1,32 @@
-<div class="flex justify-between items-center mb-8">
-    <div class="flex gap-4">
-        <input type="text" placeholder="Tìm kiếm sản phẩm..." class="px-6 py-3 rounded-2xl bg-white border border-gray-100 outline-none focus:border-emerald-dark w-80 shadow-sm">
-        <select class="px-6 py-3 rounded-2xl bg-white border border-gray-100 outline-none focus:border-emerald-dark shadow-sm">
+<div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm mb-8">
+    <div class="flex flex-wrap items-center gap-4">
+        <div class="flex-1 min-w-[300px] flex items-center bg-slate-50 rounded-2xl px-5 border border-transparent focus-within:bg-white focus-within:border-emerald-500 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all group">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" placeholder="Tìm tên sản phẩm, mã SKU..." class="flex-1 bg-transparent border-none focus:ring-0 py-4 pl-3 outline-none text-sm text-slate-700 placeholder:text-slate-400">
+        </div>
+        
+        <select class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
             <option>Tất cả danh mục</option>
-            <option>Lọc không khí</option>
-            <option>Nội thất</option>
+            <option>Cây trong nhà</option>
+            <option>Cây văn phòng</option>
+            <option>Cây lọc không khí</option>
+            <option>Dụng cụ chăm sóc</option>
         </select>
+
+        <select class="px-6 py-3.5 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 transition-all outline-none text-sm font-semibold text-slate-600 cursor-pointer">
+            <option>Trạng thái tồn kho</option>
+            <option>Còn hàng</option>
+            <option>Sắp hết</option>
+            <option>Hết hàng</option>
+        </select>
+
+        <button class="btn-primary h-[52px] px-8 flex items-center gap-3 ml-auto">
+            <span class="text-xl">+</span>
+            <span>Thêm sản phẩm</span>
+        </button>
     </div>
-    <button class="btn-primary flex items-center gap-2">
-        <span>+</span> Thêm sản phẩm mới
-    </button>
 </div>
 
 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
@@ -29,17 +46,17 @@
                 <td class="px-8 py-6">
                     <div class="flex items-center gap-4">
                         <img src="<%= product.imageUrl %>" class="w-12 h-12 rounded-xl object-cover">
-                        <span class="font-bold"><%= product.name %></span>
+                        <span class="font-bold text-slate-800"><%= product.name %></span>
                     </div>
                 </td>
-                <td class="px-8 py-6 text-gray-500"><%= product.category %></td>
-                <td class="px-8 py-6 font-bold"><%= product.price.toLocaleString('vi-VN') %>đ</td>
+                <td class="px-8 py-6 text-slate-500 font-medium"><%= product.category %></td>
+                <td class="px-8 py-6 font-bold text-slate-900"><%= product.price.toLocaleString('vi-VN') %>đ</td>
                 <td class="px-8 py-6">
                     <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">Còn hàng</span>
                 </td>
                 <td class="px-8 py-6 text-right">
-                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors">Sửa</button>
-                    <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors">Xóa</button>
+                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition-all">Sửa</button>
+                    <button class="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-all">Xóa</button>
                 </td>
             </tr>
             <% }) %>
